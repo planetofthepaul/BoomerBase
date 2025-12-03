@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>BoomerBase - Explore Famous Baby Boomers</title>
+<meta name="description" content="A comprehensive directory of famous Baby Boomers (born 1946-1964) - actors, musicians, athletes, politicians, and more." />
+<link rel="canonical" href="https://boomerbase.com/" />
+<style>
+  :root{
+    --bg:#0b0e13; --surface:#0f1420; --text:#eaf1ff; --muted:#a9b3c7;
+    --brand:#ff6b9d; --brand2:#8cffd1; --line:#1a2336; --card:#11182a;
+    --chip:#182033; --shadow:0 10px 28px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(11,14,19,.98),rgba(11,14,19,.7) 60%,rgba(11,14,19,0));backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .h-row{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 16px}
+  .brand{display:flex;gap:10px;align-items:center;font-weight:700}
+  .brand a{color:inherit;text-decoration:none}
+  .nav{display:flex;gap:16px;font-size:14px}
+  .nav a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .nav a:hover{color:var(--text)}
+  
+  .hero{
+    position:relative;
+    height:50vh;
+    min-height:300px;
+    max-height:500px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:0;
+  }
+  .hero-bg{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image:url('https://cdn.pixabay.com/photo/2014/09/12/01/59/baby-boomer-motorcycle-442244_960_720.jpg');
+    background-size:cover;
+    background-position:center;
+  }
+  .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(11,14,19,0.3) 0%, rgba(11,14,19,0.8) 100%);
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:24px;
+    max-width:800px;
+  }
+  .hero h1{
+    font-size:clamp(32px, 6vw, 56px);
+    margin:0 0 16px;
+    line-height:1.1;
+    font-weight:800;
+    background:linear-gradient(135deg, var(--brand) 0%, var(--brand2) 100%);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .hero p{
+    font-size:clamp(16px, 2vw, 20px);
+    color:var(--text);
+    margin:0;
+    opacity:0.95;
+  }
+  
+  .controls{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;padding:32px 16px 18px;background:var(--bg);position:relative}
+  .f{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
+  .f label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+  .f input,.f select{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #22324d;
+    background:#0c121f;
+    color:#fff;
+    font-size:16px;
+  }
+  
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:12px 0 70px}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+  }
+  .img{aspect-ratio:1/1;background:#0e1526;position:relative}
+  .img img{width:100%;height:100%;object-fit:cover;display:block}
+  .chip{position:absolute;left:10px;top:10px;background:rgba(10,16,28,.8);border:1px solid #1f2b46;border-radius:999px;padding:6px 10px;font-size:12px}
+  .body{padding:14px}
+  .title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .title h3{margin:0;font-size:18px}
+  .rows{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .row{background:#0c121f;border:1px solid #1b2742;border-radius:10px;padding:10px}
+  .k{font-size:12px;color:var(--muted)}
+  .v{margin-top:4px;font-weight:700}
+  .empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed #2a3654;border-radius:12px;background:#0c121f}
+  
+  footer{position:sticky;bottom:0;background:linear-gradient(0deg,rgba(11,14,19,.98),rgba(11,14,19,.6));border-top:1px solid var(--line)}
+  .foot{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+  .sum{font-size:13px;color:var(--muted)}
+  .mini{font-size:12px;color:var(--muted)}
+  
+  @media (max-width:1024px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .f{grid-column:span 6}
+  }
+  @media (max-width:680px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .f{grid-column:span 12}
+    .body{padding:10px}
+    .title h3{font-size:14px}
+  }
+  
+  /* Overlay for person details */
+  .overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(5,8,15,0.96);
+    backdrop-filter:blur(10px);
+    z-index:40;
+    display:none;
+    overflow-y:auto;
+    padding:16px;
+  }
+  .overlay.open{display:block;}
+  .overlay-inner{
+    max-width:900px;
+    margin:0 auto;
+    background:var(--surface);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .overlay-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    background:rgba(11,14,19,0.92);
+  }
+  .overlay-close{
+    border:none;
+    background:#151b29;
+    color:var(--muted);
+    width:30px;
+    height:30px;
+    border-radius:999px;
+    font-size:18px;
+    cursor:pointer;
+  }
+  .overlay-close:hover{background:#1f283a;color:var(--text);}
+  .overlay-name{font-size:22px;font-weight:700;}
+  .overlay-media{
+    position:relative;
+    aspect-ratio:16/9;
+    background:#0e1526;
+  }
+  .overlay-media img{width:100%;height:100%;object-fit:cover;}
+  .overlay-body{padding:16px 18px 18px;}
+  .detail-section{margin-bottom:20px;}
+  .detail-section h4{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin:0 0 10px;}
+  .detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+  .detail-item{background:#0c121f;border:1px solid #1b2742;border-radius:10px;padding:10px;}
+  .links{display:flex;gap:10px;flex-wrap:wrap;}
+  .links a{
+    padding:10px 16px;
+    background:#0c121f;
+    border:1px solid #1b2742;
+    border-radius:8px;
+    color:var(--brand2);
+    text-decoration:none;
+    font-size:14px;
+  }
+  .links a:hover{border-color:var(--brand2);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-row wrap">
+    <div class="brand">
+      <a href="/">BoomerBase</a>
+    </div>
+    <nav class="nav">
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Famous Baby Boomers</h1>
+    <p>Explore celebrities, musicians, actors, and public figures born between 1946-1964</p>
+  </div>
+</section>
+
+<section>
+  <div class="controls wrap">
+    <div class="f" style="grid-column:span 6">
+      <label for="search">Search</label>
+      <input id="search" type="search" placeholder="Search by name..." />
+    </div>
+    <div class="f" style="grid-column:span 3">
+      <label for="sort">Sort by</label>
+      <select id="sort">
+        <option value="prominence">Popularity</option>
+        <option value="name">Name A-Z</option>
+        <option value="youngest">Youngest First</option>
+        <option value="oldest">Oldest First</option>
+      </select>
+    </div>
+    <div class="f" style="grid-column:span 3">
+      <label for="status">Status</label>
+      <select id="status">
+        <option value="">All</option>
+        <option value="alive">Still Living</option>
+        <option value="deceased">Deceased</option>
+      </select>
+    </div>
+    <div class="f" style="grid-column:span 4">
+      <label for="occupation">Occupation</label>
+      <select id="occupation">
+        <option value="">All</option>
+        <option value="actor">Actors</option>
+        <option value="musician">Musicians</option>
+        <option value="athlete">Athletes</option>
+        <option value="politician">Politicians</option>
+        <option value="writer">Writers</option>
+        <option value="director">Directors</option>
+        <option value="comedian">Comedians</option>
+        <option value="scientist">Scientists</option>
+        <option value="business">Business/Entrepreneurs</option>
+        <option value="journalist">Journalists</option>
+        <option value="artist">Artists</option>
+        <option value="model">Models</option>
+      </select>
+    </div>
+    <div class="f" style="grid-column:span 4">
+      <label for="country">Country</label>
+      <select id="country">
+        <option value="">All</option>
+        <option value="USA">USA</option>
+        <option value="UK">UK</option>
+        <option value="Canada">Canada</option>
+        <option value="Australia">Australia</option>
+        <option value="France">France</option>
+        <option value="Germany">Germany</option>
+      </select>
+    </div>
+    <div class="f" style="grid-column:span 4">
+      <label for="decade">Birth Decade</label>
+      <select id="decade">
+        <option value="">All Years (1946-1964)</option>
+        <option value="1946">1946-1949</option>
+        <option value="1950">1950-1954</option>
+        <option value="1955">1955-1959</option>
+        <option value="1960">1960-1964</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<main class="wrap" id="app"></main>
+
+<aside id="personOverlay" class="overlay"></aside>
+
+<footer>
+  <div class="foot">
+    <div class="sum" id="summary">Loading...</div>
+    <div class="mini">Data from Wikidata</div>
+  </div>
+</footer>
+
+<script>
+// Load data from people.json
+let PEOPLE = [];
+
+const $ = s => document.querySelector(s);
+const IMG_CACHE = new Map();
+const FALLBACK_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900">
+    <rect width="100%" height="100%" fill="#0e1526"/>
+    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+          fill="#2a3654" font-family="system-ui, sans-serif" font-size="36">no image</text>
+  </svg>
+`);
+
+async function fetchWikipediaImage(name){
+  const key = name;
+  if(IMG_CACHE.has(key)) return IMG_CACHE.get(key);
+  
+  const url = `https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original|thumbnail&pithumbsize=1280&titles=${encodeURIComponent(name)}&origin=*`;
+  
+  try {
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('fetch failed');
+    const j = await r.json();
+    const pages = j?.query?.pages || {};
+    const first = Object.values(pages)[0];
+    const src = first?.original?.source || first?.thumbnail?.source || FALLBACK_IMG;
+    IMG_CACHE.set(key, src);
+    return src;
+  } catch(e){
+    IMG_CACHE.set(key, FALLBACK_IMG);
+    return FALLBACK_IMG;
+  }
+}
+
+async function preloadImages(){
+  const promises = PEOPLE.map(async p => {
+    if(!p.image || p.image.includes('wikimedia')){
+      p._img = await fetchWikipediaImage(p.name);
+    } else {
+      p._img = p.image;
+    }
+  });
+  await Promise.all(promises);
+}
+
+function computeRows(){
+  const q = ($("#search").value || "").trim().toLowerCase();
+  const occup = $("#occupation").value;
+  const country = $("#country").value;
+  const status = $("#status").value;
+  const decade = $("#decade").value;
+  const sortBy = $("#sort").value;
+  
+  let rows = PEOPLE.filter(p => {
+    const matchSearch = !q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
+    const matchOccup = !occup || p.occupations.includes(occup);
+    const matchCountry = !country || p.country === country;
+    const matchStatus = !status || (status === "alive" ? p.alive : !p.alive);
+    const matchDecade = !decade || (p.birthYear >= parseInt(decade) && p.birthYear < parseInt(decade) + (decade === "1960" ? 5 : decade === "1946" ? 4 : 5));
+    return matchSearch && matchOccup && matchCountry && matchStatus && matchDecade;
+  });
+  
+  // Sort
+  if(sortBy === "name"){
+    rows.sort((a,b) => a.name.localeCompare(b.name));
+  } else if(sortBy === "youngest"){
+    rows.sort((a,b) => (b.birthYear || 1950) - (a.birthYear || 1950));
+  } else if(sortBy === "oldest"){
+    rows.sort((a,b) => (a.birthYear || 1950) - (b.birthYear || 1950));
+  } else {
+    rows.sort((a,b) => (b.prominence || 0) - (a.prominence || 0));
+  }
+  
+  return rows;
+}
+
+function openPersonDetail(id){
+  const person = PEOPLE.find(p => p.id === id);
+  if(!person) return;
+  
+  const imgSrc = person._img || person.image || FALLBACK_IMG;
+  
+  const overlay = $("#personOverlay");
+  overlay.innerHTML = `
+    <div class="overlay-inner">
+      <div class="overlay-header">
+        <button class="overlay-close" onclick="closePersonDetail()">&times;</button>
+        <div class="overlay-name">${person.name}</div>
+      </div>
+      <div class="overlay-media">
+        <img src="${imgSrc}" alt="${person.name}">
+      </div>
+      <div class="overlay-body">
+        <div class="detail-section">
+          <h4>About</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="k">Born</div>
+              <div class="v">${person.birthYear}${person.deathYear ? " - " + person.deathYear : ""}</div>
+            </div>
+            <div class="detail-item">
+              <div class="k">Age</div>
+              <div class="v">${person.alive ? `${2024 - person.birthYear} years old` : `Deceased`}</div>
+            </div>
+            <div class="detail-item">
+              <div class="k">Occupation</div>
+              <div class="v">${person.occupations.join(", ")}</div>
+            </div>
+            <div class="detail-item">
+              <div class="k">Country</div>
+              <div class="v">${person.country || 'Unknown'}</div>
+            </div>
+          </div>
+        </div>
+        
+        ${person.notableWorks && person.notableWorks.length > 0 ? `
+          <div class="detail-section">
+            <h4>Known For</h4>
+            <div class="detail-item">
+              <div class="v">${person.notableWorks.join(" • ")}</div>
+            </div>
+          </div>
+        ` : ''}
+        
+        <div class="detail-section">
+          <h4>Links</h4>
+          <div class="links">
+            <a href="${person.wikipedia}" target="_blank">Wikipedia →</a>
+            <a href="https://www.google.com/search?q=${encodeURIComponent(person.name)}" target="_blank">Google Search →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePersonDetail(){
+  const overlay = $("#personOverlay");
+  overlay.classList.remove('open');
+  overlay.innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+function render(){
+  const app = $("#app");
+  const rows = computeRows();
+  
+  if(!rows.length){
+    app.innerHTML = `<div class="empty">No results found. Try adjusting filters.</div>`;
+    $("#summary").textContent = "Showing 0 people";
+    return;
+  }
+  
+  const html = `<section class="grid">${rows.map(p => `
+    <article class="card" data-id="${p.id}">
+      <div class="img">
+        <img alt="${p.name}" src="${p._img || p.image || FALLBACK_IMG}" loading="lazy" />
+        <div class="chip">Born ${p.birthYear}</div>
+      </div>
+      <div class="body">
+        <div class="title">
+          <h3>${p.name}</h3>
+        </div>
+        <div class="rows">
+          <div class="row">
+            <div class="k">Occupation</div>
+            <div class="v">${p.occupations[0]}</div>
+          </div>
+          <div class="row">
+            <div class="k">Age</div>
+            <div class="v">${p.alive ? (2024 - p.birthYear) : `${p.deathYear - p.birthYear}`}</div>
+          </div>
+        </div>
+      </div>
+    </article>
+  `).join('')}</section>`;
+  
+  app.innerHTML = html;
+  $("#summary").textContent = `Showing ${rows.length} ${rows.length===1?"person":"people"}`;
+}
+
+// Click handlers
+window.addEventListener("click", (e)=>{
+  const card = e.target.closest(".card");
+  if(card && card.dataset.id){
+    openPersonDetail(card.dataset.id);
+  }
+});
+
+// Close overlay on escape or backdrop click
+document.addEventListener("keydown", (e)=>{
+  if(e.key==="Escape"){
+    closePersonDetail();
+  }
+});
+
+$("#personOverlay").addEventListener("click", (e)=>{
+  if(e.target.id === "personOverlay"){
+    closePersonDetail();
+  }
+});
+
+["search","occupation","country","status","sort","decade"].forEach(id => {
+  $("#"+id).addEventListener("input", render);
+  $("#"+id).addEventListener("change", render);
+});
+
+// Load data then preload images then render
+fetch('people.json')
+  .then(r => r.json())
+  .then(data => {
+    PEOPLE = data;
+    return preloadImages();
+  })
+  .then(render)
+  .catch(err => {
+    console.error('Failed to load people.json', err);
+    document.querySelector('#app').innerHTML = '<div class="empty">Failed to load data. Make sure people.json exists.</div>';
+    document.querySelector('#summary').textContent = "Error loading data";
+  });
+</script>
+</body>
+</html>
