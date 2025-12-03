@@ -1,0 +1,512 @@
+[
+  {
+    "id": "abang-johari",
+    "name": "Abang Johari",
+    "slug": "abang-johari",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Abang_Johari",
+    "prominence": 136,
+    "notableWorks": [
+      "President",
+      "Governor"
+    ],
+    "awards": []
+  },
+  {
+    "id": "ernesto-abella",
+    "name": "Ernesto Abella",
+    "slug": "ernesto-abella",
+    "description": "Baby Boomer",
+    "occupations": [
+      "business"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Ernesto_Abella",
+    "prominence": 24,
+    "notableWorks": [],
+    "awards": []
+  },
+  {
+    "id": "abdul-rahim-thamby-chik",
+    "name": "Abdul Rahim Thamby Chik",
+    "slug": "abdul-rahim-thamby-chik",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Abdul_Rahim_Thamby_Chik",
+    "prominence": 18,
+    "notableWorks": [
+      "President",
+      "Governor"
+    ],
+    "awards": []
+  },
+  {
+    "id": "marie-christine-adam",
+    "name": "Marie-Christine Adam",
+    "slug": "marie-christine-adam",
+    "description": "Baby Boomer",
+    "occupations": [
+      "actor"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Marie-Christine_Adam",
+    "prominence": 12,
+    "notableWorks": [
+      "Marie-Christine Adam",
+      "Impossible... pas français",
+      "[[Commissaire Moulin]]",
+      "Oh Archibald",
+      "Freddy"
+    ],
+    "awards": []
+  },
+  {
+    "id": "ahmet-abakay",
+    "name": "Ahmet Abakay",
+    "slug": "ahmet-abakay",
+    "description": "Baby Boomer",
+    "occupations": [
+      "writer"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Ahmet_Abakay",
+    "prominence": 11,
+    "notableWorks": [
+      "Ahmet Abakay",
+      "The Last Words of Hoşana",
+      "The Last Words of Hoşana",
+      "Vatan",
+      "[[Özgür Gündem]]"
+    ],
+    "awards": []
+  },
+  {
+    "id": "ismail-abu-shanab",
+    "name": "Ismail Abu Shanab",
+    "slug": "ismail-abu-shanab",
+    "description": "Baby Boomer",
+    "occupations": [
+      "scientist"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": 2003,
+    "alive": false,
+    "wikipedia": "https://en.wikipedia.org/wiki/Ismail_Abu_Shanab",
+    "prominence": 11,
+    "notableWorks": [
+      "Ismail Abu Shanab",
+      "hudna"
+    ],
+    "awards": []
+  },
+  {
+    "id": "mohammad-abdur-razzaque",
+    "name": "Mohammad Abdur Razzaque",
+    "slug": "mohammad-abdur-razzaque",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Mohammad_Abdur_Razzaque",
+    "prominence": 8,
+    "notableWorks": [
+      "President"
+    ],
+    "awards": []
+  },
+  {
+    "id": "leila-abouzeid",
+    "name": "Leila Abouzeid",
+    "slug": "leila-abouzeid",
+    "description": "Baby Boomer",
+    "occupations": [
+      "writer"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Leila_Abouzeid",
+    "prominence": 8,
+    "notableWorks": [
+      "The Year of the Elephant, The Last Chapter",
+      "Leila Abouzeid",
+      "Encyclopedia of African Literature",
+      "Year of the Elephant",
+      "Year of the Elephant"
+    ],
+    "awards": []
+  },
+  {
+    "id": "jean-marie-abgrall",
+    "name": "Jean-Marie Abgrall",
+    "slug": "jean-marie-abgrall",
+    "description": "Baby Boomer",
+    "occupations": [
+      "writer"
+    ],
+    "country": "France",
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Jean-Marie_Abgrall",
+    "prominence": 4,
+    "notableWorks": [
+      "Jean-Marie Abgrall",
+      "[[Le Parisien]]",
+      "{{Lang|fr|La mécanique des sectes}}",
+      "{{Lang|fr|La mécanique des sectes}}",
+      "Soul Snatchers: The Mechanics of Cults"
+    ],
+    "awards": []
+  },
+  {
+    "id": "dan-kwasi-abodakpi",
+    "name": "Dan Kwasi Abodakpi",
+    "slug": "dan-kwasi-abodakpi",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Dan_Kwasi_Abodakpi",
+    "prominence": 4,
+    "notableWorks": [
+      "President"
+    ],
+    "awards": []
+  },
+  {
+    "id": "aghakhan-abdullayev",
+    "name": "Aghakhan Abdullayev",
+    "slug": "aghakhan-abdullayev",
+    "description": "Baby Boomer",
+    "occupations": [
+      "musician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": 2016,
+    "alive": false,
+    "wikipedia": "https://en.wikipedia.org/wiki/Aghakhan_Abdullayev",
+    "prominence": 3,
+    "notableWorks": [
+      "Aghakhan Minakhan oghlu Abdullayev"
+    ],
+    "awards": []
+  },
+  {
+    "id": "kinfe-abraham",
+    "name": "Kinfe Abraham",
+    "slug": "kinfe-abraham",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Kinfe_Abraham",
+    "prominence": 3,
+    "notableWorks": [
+      "President"
+    ],
+    "awards": []
+  },
+  {
+    "id": "joe-acosta",
+    "name": "Joe Acosta",
+    "slug": "joe-acosta",
+    "description": "Baby Boomer",
+    "occupations": [
+      "musician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": 2020,
+    "alive": false,
+    "wikipedia": "https://en.wikipedia.org/wiki/Joe_Acosta",
+    "prominence": 3,
+    "notableWorks": [
+      "Joe Acosta",
+      "The Power of Love",
+      "Asi Soy Yo",
+      "Encore"
+    ],
+    "awards": []
+  },
+  {
+    "id": "gadzhi-abashilov",
+    "name": "Gadzhi Abashilov",
+    "slug": "gadzhi-abashilov",
+    "description": "Baby Boomer",
+    "occupations": [
+      "writer"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Gadzhi_Abashilov",
+    "prominence": 2,
+    "notableWorks": [
+      "Gadzhi Akhmedovich Abashilov",
+      "Haji Abashilov",
+      "Молодежь Дагестана",
+      "Youths of Dagestan"
+    ],
+    "awards": []
+  },
+  {
+    "id": "abdul-mateen-jami",
+    "name": "Abdul Mateen Jami",
+    "slug": "abdul-mateen-jami",
+    "description": "Baby Boomer",
+    "occupations": [
+      "writer"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Abdul_Mateen_Jami",
+    "prominence": 2,
+    "notableWorks": [
+      "Nishat-e-Aagahi",
+      "Bisāt-e-Sukhan",
+      "Tarana-e-Javed",
+      "Monis-e-Sukhan",
+      "Purane Kapdon Ka Saudagar"
+    ],
+    "awards": []
+  },
+  {
+    "id": "munavvara-abdullayeva",
+    "name": "Munavvara Abdullayeva",
+    "slug": "munavvara-abdullayeva",
+    "description": "Baby Boomer",
+    "occupations": [
+      "actor"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Munavvara_Abdullayeva",
+    "prominence": 2,
+    "notableWorks": [
+      "Munavvara Abdullayeva",
+      "Chegaradagi uy",
+      "Chimildik",
+      "Alisher Navoiy",
+      "Mehrobdan chayon"
+    ],
+    "awards": []
+  },
+  {
+    "id": "salijon-abdurahmanov",
+    "name": "Salijon Abdurahmanov",
+    "slug": "salijon-abdurahmanov",
+    "description": "Baby Boomer",
+    "occupations": [
+      "writer"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Salijon_Abdurahmanov",
+    "prominence": 2,
+    "notableWorks": [
+      "Salijon Abdurahmanov"
+    ],
+    "awards": []
+  },
+  {
+    "id": "ulrich-adam",
+    "name": "Ulrich Adam",
+    "slug": "ulrich-adam",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": "Germany",
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Ulrich_Adam",
+    "prominence": 2,
+    "notableWorks": [],
+    "awards": []
+  },
+  {
+    "id": "olav-aaraas",
+    "name": "Olav Aaraas",
+    "slug": "olav-aaraas",
+    "description": "Baby Boomer",
+    "occupations": [
+      "director"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Olav_Aaraas",
+    "prominence": 1,
+    "notableWorks": [
+      "Olav Aaraas"
+    ],
+    "awards": []
+  },
+  {
+    "id": "lle-aaskivi",
+    "name": "Ülle Aaskivi",
+    "slug": "lle-aaskivi",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": 2007,
+    "alive": false,
+    "wikipedia": "https://en.wikipedia.org/wiki/%C3%9Clle_Aaskivi",
+    "prominence": 1,
+    "notableWorks": [
+      "President"
+    ],
+    "awards": []
+  },
+  {
+    "id": "o-uz-abadan",
+    "name": "Oğuz Abadan",
+    "slug": "o-uz-abadan",
+    "description": "Baby Boomer",
+    "occupations": [
+      "musician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/O%C4%9Fuz_Abadan",
+    "prominence": 1,
+    "notableWorks": [
+      "Oğuz Abadan",
+      "Notasyon ve Diziler",
+      "[[Pan Yayıncılık]]",
+      "Aralıklar ve Akorlar",
+      "[[Pan Yayıncılık]]"
+    ],
+    "awards": []
+  },
+  {
+    "id": "kwadwo-nyanpon-aboagye",
+    "name": "Kwadwo Nyanpon Aboagye",
+    "slug": "kwadwo-nyanpon-aboagye",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Kwadwo_Nyanpon_Aboagye",
+    "prominence": 1,
+    "notableWorks": [
+      "President"
+    ],
+    "awards": []
+  },
+  {
+    "id": "godfrey-abulu",
+    "name": "Godfrey Abulu",
+    "slug": "godfrey-abulu",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Godfrey_Abulu",
+    "prominence": 1,
+    "notableWorks": [
+      "President"
+    ],
+    "awards": []
+  },
+  {
+    "id": "abdou-achouba",
+    "name": "Abdou Achouba",
+    "slug": "abdou-achouba",
+    "description": "Baby Boomer",
+    "occupations": [
+      "director"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": null,
+    "alive": true,
+    "wikipedia": "https://en.wikipedia.org/wiki/Abdou_Achouba",
+    "prominence": 1,
+    "notableWorks": [
+      "Abdou Achouba",
+      "Kane Ya Kane",
+      "Taghounja",
+      "Saadati Aissawa",
+      "Flip Paradise"
+    ],
+    "awards": []
+  },
+  {
+    "id": "haman-adama",
+    "name": "Haman Adama",
+    "slug": "haman-adama",
+    "description": "Baby Boomer",
+    "occupations": [
+      "politician"
+    ],
+    "country": null,
+    "birthYear": 1950,
+    "deathYear": 2024,
+    "alive": false,
+    "wikipedia": "https://en.wikipedia.org/wiki/Haman_Adama",
+    "prominence": 0,
+    "notableWorks": [],
+    "awards": []
+  }
+]
