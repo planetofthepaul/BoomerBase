@@ -226,44 +226,6 @@
       </select>
     </div>
     <div class="f" style="grid-column:span 3">
-      <label for="status">Status</label>
-      <select id="status">
-        <option value="">All</option>
-        <option value="alive">Still Living</option>
-        <option value="deceased">Deceased</option>
-      </select>
-    </div>
-    <div class="f" style="grid-column:span 4">
-      <label for="occupation">Occupation</label>
-      <select id="occupation">
-        <option value="">All</option>
-        <option value="actor">Actors</option>
-        <option value="musician">Musicians</option>
-        <option value="athlete">Athletes</option>
-        <option value="politician">Politicians</option>
-        <option value="writer">Writers</option>
-        <option value="director">Directors</option>
-        <option value="comedian">Comedians</option>
-        <option value="scientist">Scientists</option>
-        <option value="business">Business/Entrepreneurs</option>
-        <option value="journalist">Journalists</option>
-        <option value="artist">Artists</option>
-        <option value="model">Models</option>
-      </select>
-    </div>
-    <div class="f" style="grid-column:span 4">
-      <label for="country">Country</label>
-      <select id="country">
-        <option value="">All</option>
-        <option value="USA">USA</option>
-        <option value="UK">UK</option>
-        <option value="Canada">Canada</option>
-        <option value="Australia">Australia</option>
-        <option value="France">France</option>
-        <option value="Germany">Germany</option>
-      </select>
-    </div>
-    <div class="f" style="grid-column:span 4">
       <label for="decade">Birth Decade</label>
       <select id="decade">
         <option value="">All Years (1946-1964)</option>
@@ -324,30 +286,20 @@ async function fetchWikipediaImage(name){
 
 async function preloadImages(){
   const promises = PEOPLE.map(async p => {
-    if(!p.image || p.image.includes('wikimedia')){
-      p._img = await fetchWikipediaImage(p.name);
-    } else {
-      p._img = p.image;
-    }
+    p._img = await fetchWikipediaImage(p.name);
   });
   await Promise.all(promises);
 }
 
 function computeRows(){
   const q = ($("#search").value || "").trim().toLowerCase();
-  const occup = $("#occupation").value;
-  const country = $("#country").value;
-  const status = $("#status").value;
   const decade = $("#decade").value;
   const sortBy = $("#sort").value;
   
   let rows = PEOPLE.filter(p => {
-    const matchSearch = !q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q);
-    const matchOccup = !occup || p.occupations.includes(occup);
-    const matchCountry = !country || p.country === country;
-    const matchStatus = !status || (status === "alive" ? p.alive : !p.alive);
+    const matchSearch = !q || p.name.toLowerCase().includes(q);
     const matchDecade = !decade || (p.birthYear >= parseInt(decade) && p.birthYear < parseInt(decade) + (decade === "1960" ? 5 : decade === "1946" ? 4 : 5));
-    return matchSearch && matchOccup && matchCountry && matchStatus && matchDecade;
+    return matchSearch && matchDecade;
   });
   
   // Sort
@@ -386,31 +338,10 @@ function openPersonDetail(id){
           <div class="detail-grid">
             <div class="detail-item">
               <div class="k">Born</div>
-              <div class="v">${person.birthYear}${person.deathYear ? " - " + person.deathYear : ""}</div>
-            </div>
-            <div class="detail-item">
-              <div class="k">Age</div>
-              <div class="v">${person.alive ? `${2024 - person.birthYear} years old` : `Deceased`}</div>
-            </div>
-            <div class="detail-item">
-              <div class="k">Occupation</div>
-              <div class="v">${person.occupations.join(", ")}</div>
-            </div>
-            <div class="detail-item">
-              <div class="k">Country</div>
-              <div class="v">${person.country || 'Unknown'}</div>
+              <div class="v">${person.birthYear}</div>
             </div>
           </div>
         </div>
-        
-        ${person.notableWorks && person.notableWorks.length > 0 ? `
-          <div class="detail-section">
-            <h4>Known For</h4>
-            <div class="detail-item">
-              <div class="v">${person.notableWorks.join(" • ")}</div>
-            </div>
-          </div>
-        ` : ''}
         
         <div class="detail-section">
           <h4>Links</h4>
@@ -455,12 +386,8 @@ function render(){
         </div>
         <div class="rows">
           <div class="row">
-            <div class="k">Occupation</div>
-            <div class="v">${p.occupations[0]}</div>
-          </div>
-          <div class="row">
-            <div class="k">Age</div>
-            <div class="v">${p.alive ? (2024 - p.birthYear) : `${p.deathYear - p.birthYear}`}</div>
+            <div class="k">Born</div>
+            <div class="v">${p.birthYear}</div>
           </div>
         </div>
       </div>
@@ -492,7 +419,7 @@ $("#personOverlay").addEventListener("click", (e)=>{
   }
 });
 
-["search","occupation","country","status","sort","decade"].forEach(id => {
+["search","sort","decade"].forEach(id => {
   $("#"+id).addEventListener("input", render);
   $("#"+id).addEventListener("change", render);
 });
