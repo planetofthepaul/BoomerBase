@@ -94,6 +94,7 @@
     cursor:pointer;
     display:flex;
     flex-direction:column;
+    aspect-ratio:1/1;
   }
   .img{aspect-ratio:1/1;background:#0e1526;position:relative}
   .img img{width:100%;height:100%;object-fit:cover;display:block}
@@ -137,12 +138,15 @@
   .overlay.open{display:block;}
   .overlay-inner{
     max-width:900px;
+    max-height:80vh;
     margin:0 auto;
     background:var(--surface);
     border-radius:16px;
     border:1px solid var(--line);
     box-shadow:var(--shadow);
     overflow:hidden;
+    display:flex;
+    flex-direction:column;
   }
   .overlay-header{
     display:flex;
@@ -151,6 +155,7 @@
     padding:12px 16px;
     border-bottom:1px solid var(--line);
     background:rgba(11,14,19,0.92);
+    flex-shrink:0;
   }
   .overlay-close{
     border:none;
@@ -166,11 +171,12 @@
   .overlay-name{font-size:22px;font-weight:700;}
   .overlay-media{
     position:relative;
-    aspect-ratio:16/9;
+    aspect-ratio:3/2;
     background:#0e1526;
+    flex-shrink:0;
   }
-  .overlay-media img{width:100%;height:100%;object-fit:cover;}
-  .overlay-body{padding:16px 18px 18px;}
+  .overlay-media img{width:100%;height:100%;object-fit:contain;}
+  .overlay-body{padding:16px 18px 18px;overflow-y:auto;}
   .detail-section{margin-bottom:20px;}
   .detail-section h4{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin:0 0 10px;}
   .detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
@@ -383,12 +389,6 @@ function render(){
       <div class="body">
         <div class="title">
           <h3>${p.name}</h3>
-        </div>
-        <div class="rows">
-          <div class="row">
-            <div class="k">Born</div>
-            <div class="v">${p.birthYear}</div>
-          </div>
         </div>
       </div>
     </article>
