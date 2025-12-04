@@ -95,9 +95,10 @@
     display:flex;
     flex-direction:column;
   }
-  .img{aspect-ratio:1/1;background:#0e1526;position:relative;flex-shrink:0}
-  .img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
-  .chip{position:absolute;left:10px;top:10px;background:rgba(10,16,28,.85);border:1px solid #1f2b46;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:500}
+  .img{aspect-ratio:1/1;background:#0e1526;position:relative;flex-shrink:0;overflow:hidden}
+  .img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;opacity:0;transition:opacity 0.3s ease}
+  .img img.loaded{opacity:1}
+  .chip{position:absolute;left:10px;top:10px;background:rgba(10,16,28,.85);border:1px solid #1f2b46;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:500;z-index:2}
   .body{padding:14px 16px;display:flex;align-items:center;}
   .title{width:100%}
   .title h3{margin:0;font-size:16px;font-weight:600;line-height:1.2}
@@ -106,6 +107,11 @@
   .k{font-size:12px;color:var(--muted)}
   .v{margin-top:4px;font-weight:700}
   .empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed #2a3654;border-radius:12px;background:#0c121f}
+  
+  /* Shimmer loading animation */
+  .shimmer{position:absolute;inset:0;background:linear-gradient(90deg,#0e1526 0%,#1a2744 50%,#0e1526 100%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+  .shimmer.hidden{display:none}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
   
   footer{position:sticky;bottom:0;background:linear-gradient(0deg,rgba(11,14,19,.98),rgba(11,14,19,.6));border-top:1px solid var(--line)}
   .foot{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
@@ -180,8 +186,10 @@
     display:flex;
     align-items:center;
     justify-content:center;
+    position:relative;
   }
-  .overlay-media img{width:100%;height:100%;object-fit:cover;object-position:center top;}
+  .overlay-media .shimmer{z-index:1}
+  .overlay-media img{width:100%;height:100%;object-fit:cover;object-position:center top;position:relative;z-index:2}
   .overlay-body{padding:14px 18px 18px;overflow-y:auto;flex:1;}
   .detail-section{margin-bottom:20px;}
   .detail-section h4{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin:0 0 10px;}
@@ -262,187 +270,100 @@
 </footer>
 
 <script>
-// Load data from people.json
 let PEOPLE = [];
-
 const $ = s => document.querySelector(s);
 const IMG_CACHE = new Map();
-const FALLBACK_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-  <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900">
-    <rect width="100%" height="100%" fill="#0e1526"/>
-    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
-          fill="#2a3654" font-family="system-ui, sans-serif" font-size="36">no image</text>
-  </svg>
-`);
 
 async function fetchWikipediaImage(name){
-  const key = name;
-  if(IMG_CACHE.has(key)) return IMG_CACHE.get(key);
-  
+  if(IMG_CACHE.has(name)) return IMG_CACHE.get(name);
   const url = `https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original|thumbnail&pithumbsize=1280&titles=${encodeURIComponent(name)}&origin=*`;
-  
   try {
     const r = await fetch(url);
-    if(!r.ok) throw new Error('fetch failed');
     const j = await r.json();
     const pages = j?.query?.pages || {};
-    const first = Object.values(pages)[0];
-    const src = first?.original?.source || first?.thumbnail?.source || FALLBACK_IMG;
-    IMG_CACHE.set(key, src);
+    const src = Object.values(pages)[0]?.original?.source || Object.values(pages)[0]?.thumbnail?.source || null;
+    IMG_CACHE.set(name, src);
     return src;
-  } catch(e){
-    IMG_CACHE.set(key, FALLBACK_IMG);
-    return FALLBACK_IMG;
-  }
+  } catch(e){ IMG_CACHE.set(name, null); return null; }
 }
 
-async function preloadImages(){
-  const promises = PEOPLE.map(async p => {
-    p._img = await fetchWikipediaImage(p.name);
-  });
-  await Promise.all(promises);
-}
+// Progressive loader - loads 6 at a time, visible cards first
+const loader = {
+  queue: [],
+  loading: false,
+  observer: new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) loader.prioritize(e.target.dataset.id); });
+  }, {rootMargin:'200px'}),
+
+  prioritize(id){ const i = this.queue.findIndex(x => x.id === id); if(i > 0) this.queue.unshift(...this.queue.splice(i,1)); },
+
+  add(person, card){
+    if(person._img !== undefined){ this.show(card, person._img); return; }
+    this.queue.push({id:person.id, name:person.name, person, card});
+    this.observer.observe(card);
+    if(!this.loading) this.process();
+  },
+
+  async process(){
+    if(!this.queue.length){ this.loading = false; return; }
+    this.loading = true;
+    const batch = this.queue.splice(0, 6);
+    await Promise.all(batch.map(async item => {
+      item.person._img = await fetchWikipediaImage(item.name);
+      this.show(item.card, item.person._img);
+    }));
+    setTimeout(() => this.process(), 50);
+  },
+
+  show(card, url){
+    const img = card?.querySelector('.img img'), shim = card?.querySelector('.shimmer');
+    if(url){
+      const temp = new Image();
+      temp.onload = () => { if(img){ img.src = url; img.classList.add('loaded'); } if(shim) shim.classList.add('hidden'); };
+      temp.src = url;
+    } else if(shim){ shim.textContent = 'No image'; shim.style.cssText = 'display:flex;align-items:center;justify-content:center;color:#2a3654;animation:none'; }
+  },
+
+  clear(){ this.queue = []; this.observer.disconnect(); }
+};
 
 function computeRows(){
-  const q = ($("#search").value || "").trim().toLowerCase();
-  const decade = $("#decade").value;
-  const sortBy = $("#sort").value;
-  
-  let rows = PEOPLE.filter(p => {
-    const matchSearch = !q || p.name.toLowerCase().includes(q);
-    const matchDecade = !decade || (p.birthYear >= parseInt(decade) && p.birthYear < parseInt(decade) + (decade === "1960" ? 5 : decade === "1946" ? 4 : 5));
-    return matchSearch && matchDecade;
-  });
-  
-  // Sort
-  if(sortBy === "name"){
-    rows.sort((a,b) => a.name.localeCompare(b.name));
-  } else if(sortBy === "youngest"){
-    rows.sort((a,b) => (b.birthYear || 1950) - (a.birthYear || 1950));
-  } else if(sortBy === "oldest"){
-    rows.sort((a,b) => (a.birthYear || 1950) - (b.birthYear || 1950));
-  } else {
-    rows.sort((a,b) => (b.prominence || 0) - (a.prominence || 0));
-  }
-  
+  const q = ($("#search").value||"").trim().toLowerCase(), decade = $("#decade").value, sortBy = $("#sort").value;
+  let rows = PEOPLE.filter(p => (!q || p.name.toLowerCase().includes(q)) && (!decade || (p.birthYear >= +decade && p.birthYear < +decade + (decade==="1960"?5:decade==="1946"?4:5))));
+  if(sortBy==="name") rows.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(sortBy==="youngest") rows.sort((a,b)=>(b.birthYear||1950)-(a.birthYear||1950));
+  else if(sortBy==="oldest") rows.sort((a,b)=>(a.birthYear||1950)-(b.birthYear||1950));
+  else rows.sort((a,b)=>(b.prominence||0)-(a.prominence||0));
   return rows;
 }
 
-function openPersonDetail(id){
-  const person = PEOPLE.find(p => p.id === id);
-  if(!person) return;
-  
-  const imgSrc = person._img || person.image || FALLBACK_IMG;
-  
-  const overlay = $("#personOverlay");
-  overlay.innerHTML = `
-    <div class="overlay-inner">
-      <div class="overlay-header">
-        <button class="overlay-close" onclick="closePersonDetail()">&times;</button>
-        <div class="overlay-name">${person.name}</div>
-      </div>
-      <div class="overlay-media">
-        <img src="${imgSrc}" alt="${person.name}">
-      </div>
-      <div class="overlay-body">
-        <div class="detail-section">
-          <h4>About</h4>
-          <div class="detail-grid">
-            <div class="detail-item">
-              <div class="k">Born</div>
-              <div class="v">${person.birthYear}</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="detail-section">
-          <h4>Links</h4>
-          <div class="links">
-            <a href="${person.wikipedia}" target="_blank">Wikipedia →</a>
-            <a href="https://www.google.com/search?q=${encodeURIComponent(person.name)}" target="_blank">Google Search →</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closePersonDetail(){
-  const overlay = $("#personOverlay");
-  overlay.classList.remove('open');
-  overlay.innerHTML = '';
-  document.body.style.overflow = '';
-}
-
 function render(){
-  const app = $("#app");
+  loader.clear();
   const rows = computeRows();
-  
-  if(!rows.length){
-    app.innerHTML = `<div class="empty">No results found. Try adjusting filters.</div>`;
-    $("#summary").textContent = "Showing 0 people";
-    return;
-  }
-  
-  const html = `<section class="grid">${rows.map(p => `
-    <article class="card" data-id="${p.id}">
-      <div class="img">
-        <img alt="${p.name}" src="${p._img || p.image || FALLBACK_IMG}" loading="lazy" />
-        <div class="chip">Born ${p.birthYear}</div>
-      </div>
-      <div class="body">
-        <div class="title">
-          <h3>${p.name}</h3>
-        </div>
-      </div>
-    </article>
-  `).join('')}</section>`;
-  
-  app.innerHTML = html;
-  $("#summary").textContent = `Showing ${rows.length} ${rows.length===1?"person":"people"}`;
+  if(!rows.length){ $("#app").innerHTML = `<div class="empty">No results found.</div>`; $("#summary").textContent = "0 people"; return; }
+  $("#app").innerHTML = `<section class="grid">${rows.map(p => {
+    const has = p._img !== undefined;
+    return `<article class="card" data-id="${p.id}"><div class="img"><div class="shimmer${has?' hidden':''}"></div><img alt="${p.name}" src="${has?p._img:''}" class="${has?'loaded':''}"/><div class="chip">Born ${p.birthYear}</div></div><div class="body"><div class="title"><h3>${p.name}</h3></div></div></article>`;
+  }).join('')}</section>`;
+  $("#summary").textContent = `${rows.length} ${rows.length===1?'person':'people'}`;
+  $("#app").querySelectorAll('.card').forEach((card,i) => { if(rows[i]._img === undefined) loader.add(rows[i], card); });
 }
 
-// Click handlers
-window.addEventListener("click", (e)=>{
-  const card = e.target.closest(".card");
-  if(card && card.dataset.id){
-    openPersonDetail(card.dataset.id);
-  }
-});
+function openPersonDetail(id){
+  const p = PEOPLE.find(x=>x.id===id); if(!p) return;
+  $("#personOverlay").innerHTML = `<div class="overlay-inner"><div class="overlay-header"><button class="overlay-close" onclick="closePersonDetail()">&times;</button><div class="overlay-name">${p.name}</div></div><div class="overlay-media"><div class="shimmer${p._img?' hidden':''}" id="oShim"></div><img id="oImg" src="${p._img||''}" style="${p._img?'':'opacity:0'}"></div><div class="overlay-body"><div class="detail-section"><h4>About</h4><div class="detail-grid"><div class="detail-item"><div class="k">Born</div><div class="v">${p.birthYear}</div></div></div></div><div class="detail-section"><h4>Links</h4><div class="links"><a href="${p.wikipedia}" target="_blank">Wikipedia &rarr;</a><a href="https://www.google.com/search?q=${encodeURIComponent(p.name)}" target="_blank">Google &rarr;</a></div></div></div></div>`;
+  $("#personOverlay").classList.add('open'); document.body.style.overflow='hidden';
+  if(!p._img) fetchWikipediaImage(p.name).then(url=>{ p._img=url; const img=document.getElementById('oImg'),shim=document.getElementById('oShim'); if(url&&img){const t=new Image();t.onload=()=>{img.src=url;img.style.opacity='1';if(shim)shim.classList.add('hidden');};t.src=url;}else if(shim){shim.textContent='No image';shim.style.animation='none';} });
+}
 
-// Close overlay on escape or backdrop click
-document.addEventListener("keydown", (e)=>{
-  if(e.key==="Escape"){
-    closePersonDetail();
-  }
-});
+function closePersonDetail(){ $("#personOverlay").classList.remove('open'); $("#personOverlay").innerHTML=''; document.body.style.overflow=''; }
 
-$("#personOverlay").addEventListener("click", (e)=>{
-  if(e.target.id === "personOverlay"){
-    closePersonDetail();
-  }
-});
+window.addEventListener("click",e=>{const c=e.target.closest(".card");if(c?.dataset.id)openPersonDetail(c.dataset.id);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePersonDetail();});
+$("#personOverlay").addEventListener("click",e=>{if(e.target.id==="personOverlay")closePersonDetail();});
+["search","sort","decade"].forEach(id=>{$("#"+id).addEventListener("input",render);$("#"+id).addEventListener("change",render);});
 
-["search","sort","decade"].forEach(id => {
-  $("#"+id).addEventListener("input", render);
-  $("#"+id).addEventListener("change", render);
-});
-
-// Load data then preload images then render
-fetch('people.json')
-  .then(r => r.json())
-  .then(data => {
-    PEOPLE = data;
-    return preloadImages();
-  })
-  .then(render)
-  .catch(err => {
-    console.error('Failed to load people.json', err);
-    document.querySelector('#app').innerHTML = '<div class="empty">Failed to load data. Make sure people.json exists.</div>';
-    document.querySelector('#summary').textContent = "Error loading data";
-  });
+fetch('people.json').then(r=>r.json()).then(d=>{PEOPLE=d;render();}).catch(()=>{$("#app").innerHTML='<div class="empty">Failed to load data.</div>';});
 </script>
 </body>
 </html>
